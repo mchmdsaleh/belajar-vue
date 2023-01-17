@@ -4,7 +4,12 @@ let listTodo = ref([])
 let newTodo = ref('')
 
 const addTodo = () => {
-  listTodo.value.push({name: newTodo})
+  listTodo.value.push({name: newTodo.value})
+  newTodo = ref('')
+}
+
+const actRemove = (todo) => {
+  listTodo.value = listTodo.value.filter(self => self !== todo)
 }
 
 </script>
@@ -31,9 +36,14 @@ const addTodo = () => {
       <h2>
         ToDo List
       </h2>
-      <div v-for="todo in listTodo" v-bind:key="todo.name"  class="todo">
-        <p>{{todo.name}}</p>
-        <button class="remove">Remove</button>
+      <div v-if="listTodo.length > 0">
+          <div  v-for="todo in listTodo" v-bind:key="todo.name"  class="todo">
+            <p>{{todo.name}}</p>
+            <button @click="actRemove(todo)" class="remove">Remove</button>
+          </div>
+      </div>
+      <div v-else class="empty">
+        <h4>Empty List</h4>
       </div>
 
       <!-- <div class="todo">
@@ -41,7 +51,6 @@ const addTodo = () => {
         <button class="remove">Remove</button>
       </div> -->
     </div>
-    {{ listTodo }}
   </main>
 </template>
 
@@ -111,5 +120,11 @@ const addTodo = () => {
   background-color: #A0A4D9;
   border: none;
   font-weight: 700;
+}
+
+.empty {
+  color: #727476;
+  text-align: center;
+  margin-top: 5%;
 }
 </style>
